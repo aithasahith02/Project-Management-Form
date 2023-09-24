@@ -5,7 +5,12 @@ var baseURL = "http://api.login2explore.com:5577";
 var jpdbIRL = "/api/irl";
 var jpdbIML = "/api/iml";
 
-$("#projId").focus();
+$('#projID').focus();
+
+function clicked()
+{
+    alert("HEllo");
+}
 
 function saveRecNo(jsonObj) {
     var data = JSON.parse(jsonObj.data);
@@ -38,7 +43,7 @@ function resetForm() {
     $("#assDate").val("");
     $("#deadlineDate").val("");
     $('projID').prop('disabled', false);
-    $('save').prop('disabled', true);
+    $('save').prop('disabled', false);
     $('change').prop('disabled', true);
     $('reset').prop('disabled', true);
     $("#projId").focus();
