@@ -5,7 +5,7 @@ var baseURL = "http://api.login2explore.com:5577";
 var jpdbIRL = "/api/irl";
 var jpdbIML = "/api/iml";
 
-$('#projID').focus();
+$("#projID").focus();
 
 function clicked()
 {
@@ -131,10 +131,13 @@ function changeData() {
 }
 
 function getProj() {
+   
     var projIDJsonObj = getProjIDasJsonObj();
-    var getRequest = createGET_BY_KEY_REQUEST(connectionToken, databaseName, relationName, projIDJsonObj);
+    var getRequest = createGET_BY_KEYRequest(connectionToken, databaseName, relationName, projIDJsonObj);
+     
     jQuery.ajaxSetup({ async: false });
     var resultObj = executeCommandAtGivenBaseUrl(getRequest, baseURL, jpdbIRL);
+     console.log("Executed");
     jQuery.ajaxSetup({ async: true });
     if (resultObj.status === 400) {
         $('#save').prop('disabled', false);

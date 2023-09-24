@@ -10,12 +10,14 @@
         src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script
         src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
+        <script src="js/index.js" ></script>
     </head>
     <body>
         <button type="button" onclick="clicked()">CLICKED</button>
         <div class="container">
             <h2>Project Management System</h2>
-            <form id="projForm" method="get">
+            <form id="projForm">
                 <div class="form-group">
                     <label class="form-group">Project ID :</label>
                     <input type="text" id="projID" class="form-control" placeholder="Enter Project ID" onchange="getProj()">
@@ -43,7 +45,5 @@
                 </div>
             </form>
         </div>
-        <script src="http://login2explore.com/jpdb/resources/js/0.0.3/jpdb-commons.js"></script>
-        <script src="js/index.js" ></script>
     </body>
 </html>
