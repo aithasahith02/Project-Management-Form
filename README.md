@@ -18,3 +18,4 @@ JsonPowerDB is a powerful database that have been used to store records for this
     
 ## Useful resources
   * Introduction to JsonPowerDB - V2.0 course  on https://careers.login2explore.com/
+  * JSONPowerDB at http://api.login2explore.com:5577/user/dashboard.html
