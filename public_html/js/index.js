@@ -1,8 +1,8 @@
 //Variables to be used to make API calls
 var connectionToken = "90931686|-31949325595370742|90961570";
-var databaseName = "project";
-var relationName = "proj-rel";
 var baseURL = "http://api.login2explore.com:5577";
+var relationName = "proj-rel";
+var databaseName = "project";
 var jpdbIRL = "/api/irl";
 var jpdbIML = "/api/iml";
 
