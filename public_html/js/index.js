@@ -1,3 +1,36 @@
+var connectionToken = "90931686|-31949325595370742|90961570";
+var databaseName = "project";
+var relationName = "proj-rel";
+var baseURL = "http://api.login2explore.com:5577";
+var jpdbIRL = "/api/irl";
+var jpdbIML = "/api/iml";
+
+$("#projId").focus();
+
+function saveRecNo(jsonObj) {
+    var data = JSON.parse(jsonObj.data);
+    localStorage.setItem("recno", data.rec_no);
+}
+
+function getProjIDasJsonObj() {
+    var projid = $('#projID').val();
+    var jsonstr = {
+        id: projid
+    };
+    return JSON.stringify(jsonstr);
+}
+
+function fillData(jsonObj) {
+    saveRecNo(jsonObj);
+    var data = JSON.parse(jsonObj.data).record;
+    $('#projID').val(data.projId);
+    $('#projName').val(data.projName);
+    $('#projAssi').val(data.projAssi);
+    $('#assDate').val(data.assDate);
+    $('#deadlineDate').val(data.deadlineDate);
+
+
+}
 function resetForm() {
     $("#projID").val("");
     $("#projName").val("");
@@ -10,24 +43,6 @@ function resetForm() {
     $('reset').prop('disabled', true);
     $("#projId").focus();
 }
-
-
-function saveData() {
-    var jsonStr = validateAndGetFormData();
-    if (jsonStr === "") {
-        return;
-    }
-    var putReqStr = createPUTRequest("90931686|-31949325595370742|90961570",
-        jsonStr, "project", "proj-rel");
-    alert(putReqStr);
-    jQuery.ajaxSetup({ async: false });
-    var resultObj = executeCommand(putReqStr,
-        "http://api.login2explore.com:5577", "/api/iml");
-    alert(JSON.stringify(resultObj));
-    jQuery.ajaxSetup({ async: true });
-    resetForm();
-}
-
 
 function validateAndGetFormData() {
     var projIDVar = $("#projID").val();
@@ -64,13 +79,68 @@ function validateAndGetFormData() {
         $("#deadlineDate").focus();
         return "";
     }
-    
-   var jsonStrObj = {
+
+    var jsonStrObj = {
         projID: projIDVar,
         projName: projNameVar,
-       projAssi: projAssiVar,
-       assDate: assDateVar,
-        deadlineDate : deadlineDateVar
+        projAssi: projAssiVar,
+        assDate: assDateVar,
+        deadlineDate: deadlineDateVar
     };
     return JSON.stringify(jsonStrObj);
+}
+
+
+function saveData() {
+    var jsonStr = validateAndGetFormData();
+    if (jsonStr === "") {
+        return;
+    }
+    var putReqStr = createPUTRequest(connectionToken,
+        jsonStr, databaseName, relationName);
+    alert(putReqStr);
+    jQuery.ajaxSetup({ async: false });
+    var resultObj = executeCommandAtGivenBaseUrl(putReqStr,
+        baseURL, jpdbIML);
+    alert(JSON.stringify(resultObj));
+    jQuery.ajaxSetup({ async: true });
+    resetForm();
+    $('#projID').focus();
+}
+
+
+function changeData() {
+    $("#change").prop('disabled', true);
+    jsonChg = validateAndGetFormData();
+    var updateRequest = createUPDATERecordRequest(connectionToken,
+        jsonChg, databaseName, relationName, localStorage.getItem("recno"));
+    alert(updateRequest);
+    jQuery.ajaxSetup({ async: false });
+    var resultObj = executeCommandAtGivenBaseUrl(updateRequest,
+        baseURL, jpdbIML);
+    alert(JSON.stringify(resultObj));
+    jQuery.ajaxSetup({ async: true });
+    resetForm();
+    $('#projID').focus();
+
+}
+
+function getProj() {
+    var projIDJsonObj = getProjIDasJsonObj();
+    var getRequest = createGET_BY_KEY_REQUEST(connectionToken, databaseName, relationName, projIDJsonObj);
+    jQuery.ajaxSetup({ async: false });
+    var resultObj = executeCommandAtGivenBaseUrl(getRequest, baseURL, jpdbIRL);
+    jQuery.ajaxSetup({ async: true });
+    if (resultObj.status === 400) {
+        $('#save').prop('disabled', false);
+        $('#reset').prop('disabled', false);
+        $('#projName').focus();
+
+    } else if (resultObj.status === 200) {
+        $('#projID').prop('disabled', true);
+        fillData(resultObj);
+        $('#change').prop('disabled', false);
+        $('#reset').prop('disabled', false);
+        $('#projName').focus();
+    }
 }
